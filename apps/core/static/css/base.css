@@ -1,0 +1,38 @@
+/* base.css */
+
+/* 1. Fuente GEIST: Globalmente aplicada, solo como fallback */
+/* La fuente ya está cargada en el <head>, la aplicamos con CSS si es necesario */
+body {
+    font-family: "Poppins", sans-serif;
+
+}
+
+/* 2. Smooth Scroll: Mejora la navegación con anclas */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 3. Animación de Entrada (Mejora UX) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Usamos menos desplazamiento, es más sutil */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards; /* Aumentamos el tiempo para sutileza, 'forwards' mantiene el estado final */
+}
+
+/* 4. Fallback para Backdrop Blur (Mejora la compatibilidad) */
+/* Si el navegador no soporta backdrop-filter, usamos un fondo sólido más oscuro.
+   La clase bg-slate-900/80 es buena, aquí usamos una variante */
+@supports not (backdrop-filter: blur(1px)) {
+    nav {
+        background-color: rgba(15, 23, 42, 0.98) !important; /* Slate-900 casi sólido */
+    }
+}
