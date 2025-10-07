@@ -1,0 +1,49 @@
+# ------------------------------------
+# 1. ENTORNOS LOCALES Y DEPENDENCIAS
+# ------------------------------------
+# Entorno virtual de Python (crucial)
+.venv/
+env/
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+# Paquetes Python compilados (wheels)
+*.whl
+
+# ------------------------------------
+# 2. ARCHIVOS SENSIBLES Y BASE DE DATOS
+# ------------------------------------
+# Base de datos SQLite local. NUNCA se sube a Git.
+db.sqlite3
+
+# Archivos de configuración de Django con claves secretas
+# (Asegúrate de no subir tu settings.py si contiene la SECRET_KEY sin usar variables de entorno)
+# Generalmente se usa un archivo para guardar variables de entorno
+.env
+.flaskenv
+
+# ------------------------------------
+# 3. ARCHIVOS DE SISTEMA Y METADATOS
+# ------------------------------------
+# Archivos del sistema operativo (Windows)
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Archivos de macOS
+.DS_Store
+
+# ------------------------------------
+# 4. HERRAMIENTAS DE DESARROLLO Y DOCKER
+# ------------------------------------
+# Archivos de caché de IDEs (VS Code, PyCharm, etc.)
+.vscode/
+.idea/
+.history/
+
+# Archivos de Docker y Build
+# Ignoramos cualquier carpeta temporal creada por Docker
+build/
+dist/
