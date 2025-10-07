@@ -73,6 +73,8 @@
         </div>
     </div>
 </section>
+
+<!-- Sección de Proyectos Destacados -->
 {% endblock %}
 {% block extra_js %}
 <script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
@@ -107,13 +109,11 @@
                     
                     annotation.show();
                     
-                    // Esperar a que termine la animación antes de continuar
                     await new Promise(resolve => setTimeout(resolve, config.duration + 500));
                 }
             }
         }
         
-        // Iniciar la secuencia después de un pequeño delay
         setTimeout(() => showHighlightsSequentially(), 500);
     });
 </script>
