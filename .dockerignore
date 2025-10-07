@@ -1,0 +1,26 @@
+# Entorno virtual de Python: Nunca debe ir en la imagen.
+.venv
+
+# Base de datos local: Usa una base de datos externa en producción.
+db.sqlite3
+
+# Archivos de caché de Python y bytecode. Se regeneran.
+__pycache__
+*.pyc
+
+# Archivos de configuración de IDEs (Visual Studio Code, PyCharm/IntelliJ).
+.vscode
+.idea
+*.sublime-workspace
+.DS_Store
+
+# Archivos de la propia construcción de Docker.
+Dockerfile
+.dockerignore
+
+# Dependencias (si ya están instaladas en el contenedor)
+# NOTA: En este caso, SÍ COPIAMOS requirements.txt, pero esta línea es una buena práctica general.
+# requirements.txt 
+
+# Logs y cualquier otra carpeta que no sea esencial para la ejecución.
+*.log
