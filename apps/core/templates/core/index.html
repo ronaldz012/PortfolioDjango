@@ -73,6 +73,20 @@
         </div>
     </div>
 </section>
+<h1>Mis Proyectos de Desarrollo</h1>
+
+{% for project in projects %}
+    <article class="project-card">
+        
+        <h2>{{ project.get_title }}</h2> 
+        
+        <p>{{ project.get_short_description }}</p>
+        
+    </article>
+    <hr>
+{% empty %}
+    <p>Lo siento, aún no hay proyectos publicados para mostrar.</p>
+{% endfor %}
 
 <!-- Sección de Proyectos Destacados -->
 {% endblock %}
