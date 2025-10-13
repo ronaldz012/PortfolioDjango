@@ -12,16 +12,17 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
        
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com"></script>1
        
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
        
         {% block extra_css %}{% endblock %}
     </head>
+
     <body class="min-h-screen text-black antialiased bg-white" style="font-family: 'Poppins', sans-serif;"> 
     
         <nav class="fixed top-0 w-full z-50 border-b bg-white">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <a href="{% url 'core:home' %}" class="text-2xl text-gray-900 hover:text-purple-400 transition-colors tracking-wide">
                         RONALD ZEPITA
@@ -89,60 +90,12 @@
             </div>
         </nav>
     
-        <main class="pt-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            {% block content %}
-            <!-- Hero Section -->
-            <section class="py-12 md:py-20">
-                <div class="grid md:grid-cols-2 gap-6 items-center">
-                    <!-- Texto -->
-                    <div class="space-y-4 w-full pr-0 md:pr-4">
-                        <h1 class="text-5xl md:text-6xl font-bold">
-                            <span class="text-purple-600">Hola.</span>
-                        </h1>
-                        
-                        <h1 class="text-5xl md:text-6xl font-bold">
-                            <span class="text-purple-600">Hola.</span>
-                        </h1>
-                        
-                        <div class="text-lg text-gray-700 space-y-4 leading-relaxed">
-                            <p>
-                                Soy <strong>Ingeniero Mecatrónico</strong> de formación y un <strong>Ingeniero de Sistemas y Desarrollador Backend</strong> enfocado en soluciones.
-                            </p>
-                            
-                            <p class="text-xl font-semibold text-gray-900">
-                                Mi valor es unir la visión estratégica con la ejecución técnica impecable.
-                            </p>
-                            
-                            <p>
-                                Mi experiencia abarca desde la adquisición de <strong>habilidades IoT y de hardware</strong> con <strong>PLCs y electrónica</strong> en <strong>Pil Andina</strong>, hasta el soporte de infraestructura crítica y redes en la prestigiosa <strong>CBN</strong>. Finalmente, en <strong>Noxun</strong>, me especialicé en el desarrollo y despliegue de <strong>APIs REST robustas</strong> para sistemas críticos (autenticación, inventario y facturación).
-                            </p>
-                            
-                            <p>
-                                Gracias a esta trayectoria, soy un profesional <strong>analítico, resolutivo y adaptable</strong>. Destaco en la <strong>gestión de requerimientos y la alineación con el equipo</strong>, garantizando que los objetivos complejos se traduzcan en soluciones escalables y diseñadas para un impacto real en el negocio.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Imagen -->
-                    <div class="flex justify-center md:justify-end pl-0 md:pl-4">
-                        <div class="relative">
-                            <div class="w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden shadow-2xl border-4 border-purple-100">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop" 
-                                     alt="Ronald Zepita" 
-                                     class="w-full h-full object-cover">
-                            </div>
-                            <!-- Decoración -->
-                            <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-purple-600 rounded-full opacity-20 -z-10"></div>
-                            <div class="absolute -top-4 -left-4 w-16 h-16 bg-purple-400 rounded-full opacity-20 -z-10"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            {% endblock %}
+        <main class="pt-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            {% block content %}{% endblock %}
         </main>
     
         <footer class="bg-gray-50 border-t border-gray-200 py-8 mt-20">
-            <div class="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <div class="max-w-5xl mx-auto px-4 text-center text-gray-500 text-sm">
                 <p>&copy; {% now "Y" %} **Ronald Zepita**. {% trans "All Rights reserved." %}</p>
             </div>
         </footer>

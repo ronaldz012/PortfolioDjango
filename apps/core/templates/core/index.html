@@ -73,23 +73,61 @@
         </div>
     </div>
 </section>
+
 <h1>Mis Proyectos de Desarrollo</h1>
+{% load static %}
+<section class="grid grid-cols-1 gap-8 p-6 mx-auto max-w-5xl"> 
+    
+    {% for project in projects %}
+        <article class="project-card border-2 border-gray-900 rounded-xl p-6 flex flex-col transition duration-300 hover:shadow-xl relative bg-white">
+            
+            <header class="mb-4">
+                <h2 class="text-2xl font-bold mb-2">
+                    <a href="#" class="text-gray-900 hover:text-indigo-600 transition duration-150"> 
+                        {{ project.get_title }} 
+                    </a>
+                </h2> 
+            </header>
+            
+            <p class="text-gray-600 text-lg flex-grow mb-4">
+                {{ project.get_short_description }}
+            </p>
 
-{% for project in projects %}
-    <article class="project-card">
-        
-        <h2>{{ project.get_title }}</h2> 
-        
-        <p>{{ project.get_short_description }}</p>
-        
-    </article>
-    <hr>
-{% empty %}
-    <p>Lo siento, aún no hay proyectos publicados para mostrar.</p>
-{% endfor %}
+            <div class="flex flex-wrap gap-3 mb-6">
+                {% for tech in project.technologies.all %}
+                    <span class="text-3xl" title="{{ tech.name }}">
+                        <i class="devicon-{{ tech.icon }}-plain colored"></i>
+                    </span>
+                {% endfor %}
+            </div>
 
-<!-- Sección de Proyectos Destacados -->
+            <div class="flex gap-4 mt-auto items-center">
+                <a href="#" class="bg-gray-800 text-white px-5 py-2 rounded-md font-medium text-lg hover:bg-gray-700 transition shadow-md">
+                    Ver Documentación →
+                </a>
+                
+                {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="text-gray-800 bg-gray-100 border border-gray-300 px-5 py-2 rounded-md text-lg hover:bg-gray-200 transition">
+                        GitHub
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if project.featured %}
+                <span class="absolute top-0 right-0 mt-3 mr-3 bg-yellow-400 text-gray-800 text-sm font-bold py-1 px-3 rounded-full shadow-lg">
+                    ⭐ Destacado
+                </span>
+            {% endif %}
+
+        </article>
+    {% empty %}
+        <p class="col-span-full text-center py-10 text-gray-500">
+            Lo siento, aún no hay proyectos publicados para mostrar.
+        </p>
+    {% endfor %}
+</section>
 {% endblock %}
+
 {% block extra_js %}
 <script src="https://unpkg.com/rough-notation/lib/rough-notation.iife.js"></script>
 <script>
