@@ -67,6 +67,32 @@ class Project(models.Model):
     demo_url = models.URLField(blank=True,default='', verbose_name="Demo URL")
     featured = models.BooleanField(default=False, verbose_name="Featured")
     order = models.IntegerField(default=0, verbose_name="Order")
+
+    thumbnail = models.ImageField(
+        upload_to='projects/thumbnails/',
+        verbose_name="Miniatura",
+        help_text="Imagen principal para mostrar en la lista de proyectos (Recomendado: 800x600px)",
+        blank=True,
+        null=True
+    )
+    
+    # 2. Diagrama de Arquitectura - Para mostrar la infraestructura
+    architecture_diagram = models.ImageField(
+        upload_to='projects/architecture/',
+        verbose_name="Diagrama de Arquitectura",
+        help_text="Diagrama técnico mostrando la arquitectura del sistema",
+        blank=True,
+        null=True
+    )
+    
+    # 3. Imagen de Resultados - Dashboard, métricas, CI/CD, etc.
+    result_image = models.ImageField(
+        upload_to='projects/results/',
+        verbose_name="Imagen de Resultados",
+        help_text="Screenshot de dashboards, pipelines, métricas o resultados",
+        blank=True,
+        null=True
+    )
     
     # --- Clases Internas y Métodos ---
     class Meta:
