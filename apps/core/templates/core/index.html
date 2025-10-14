@@ -76,56 +76,73 @@
 
 <h1>Mis Proyectos de Desarrollo</h1>
 {% load static %}
-<section class="grid grid-cols-1 gap-8 p-6 mx-auto max-w-5xl"> 
-    
+
+<section class="grid grid-cols-1 gap-8 p-6 mx-auto max-w-5xl">
     {% for project in projects %}
-        <article class="project-card border-2 border-gray-900 rounded-xl p-6 flex flex-col transition duration-300 hover:shadow-xl relative bg-white">
-            
+    <article class="border border-gray-300 rounded-xl flex flex-col md:flex-row transition duration-300 hover:shadow-xl relative bg-white p-4">
+        
+        <!-- Thumbnail a la izquierda -->
+        <div class="w-full md:w-56 h-40 md:h-40 bg-gray-100 flex-shrink-0 rounded-lg overflow-hidden mr-0 md:mr-6 mb-4 md:mb-0">
+            {% if project.thumbnail %}
+                <img 
+                    src="{{ project.thumbnail.url }}" 
+                    alt="{{ project.get_title }}"
+                    class="w-full h-full object-contain"
+                >
+            {% else %}
+                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                    <span class="text-gray-400 text-sm">Sin imagen</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Contenido a la derecha -->
+        <div class="flex-1 flex flex-col">
             <header class="mb-4">
                 <h2 class="text-2xl font-bold mb-2">
-                    <a href="#" class="text-gray-900 hover:text-indigo-600 transition duration-150"> 
-                        {{ project.get_title }} 
+                    <a href="#" class="text-gray-900 hover:text-indigo-600 transition duration-150">
+                        {{ project.get_title }}
                     </a>
-                </h2> 
+                </h2>
             </header>
             
             <p class="text-gray-600 text-lg flex-grow mb-4">
                 {{ project.get_short_description }}
             </p>
-
+            
             <div class="flex flex-wrap gap-3 mb-6">
                 {% for tech in project.technologies.all %}
-                    <span class="text-3xl" title="{{ tech.name }}">
-                        <i class="devicon-{{ tech.icon }}-plain colored"></i>
-                    </span>
+                <span class="text-3xl" title="{{ tech.name }}">
+                    <i class="devicon-{{ tech.icon }}-plain colored"></i>
+                </span>
                 {% endfor %}
             </div>
-
-            <div class="flex gap-4 mt-auto items-center">
-                <a href="#" class="bg-gray-800 text-white px-5 py-2 rounded-md font-medium text-lg hover:bg-gray-700 transition shadow-md">
+            
+            <div class="flex flex-col sm:flex-row gap-3 mt-auto">
+                <a href="#" class="bg-gray-800 text-white px-5 py-2 rounded-md font-medium text-base sm:text-lg hover:bg-gray-700 transition shadow-md text-center">
                     Ver Documentación →
                 </a>
-                
                 {% if project.github_url %}
-                    <a href="{{ project.github_url }}" target="_blank" class="text-gray-800 bg-gray-100 border border-gray-300 px-5 py-2 rounded-md text-lg hover:bg-gray-200 transition">
-                        GitHub
-                    </a>
+                <a href="{{ project.github_url }}" target="_blank" class="text-gray-800 bg-gray-100 border border-gray-300 px-5 py-2 rounded-md text-base sm:text-lg hover:bg-gray-200 transition text-center">
+                    GitHub
+                </a>
                 {% endif %}
             </div>
-
+            
             {% if project.featured %}
-                <span class="absolute top-0 right-0 mt-3 mr-3 bg-yellow-400 text-gray-800 text-sm font-bold py-1 px-3 rounded-full shadow-lg">
-                    ⭐ Destacado
-                </span>
+            <span class="absolute top-3 right-3 bg-yellow-400 text-gray-800 text-sm font-bold py-1 px-3 rounded-full shadow-lg">
+                ⭐ Destacado
+            </span>
             {% endif %}
-
-        </article>
+        </div>
+    </article>
     {% empty %}
-        <p class="col-span-full text-center py-10 text-gray-500">
-            Lo siento, aún no hay proyectos publicados para mostrar.
-        </p>
+    <p class="col-span-full text-center py-10 text-gray-500">
+        Lo siento, aún no hay proyectos publicados para mostrar.
+    </p>
     {% endfor %}
 </section>
+
 {% endblock %}
 
 {% block extra_js %}
