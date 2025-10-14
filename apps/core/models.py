@@ -62,8 +62,9 @@ class Project(models.Model):
         verbose_name="Technologies",
         blank=True
     )
-    github_url = models.URLField(blank=True, verbose_name="GitHub URL")
-    demo_url = models.URLField(blank=True, verbose_name="Demo URL")
+    github_url = models.URLField(blank=False, default='', verbose_name="GitHub URL")
+    video_url = models.URLField(blank=True, default='', verbose_name="Video URL")
+    demo_url = models.URLField(blank=True,default='', verbose_name="Demo URL")
     featured = models.BooleanField(default=False, verbose_name="Featured")
     order = models.IntegerField(default=0, verbose_name="Order")
     
