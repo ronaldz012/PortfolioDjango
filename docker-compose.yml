@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   web:
     build: .
@@ -8,8 +7,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./media:/app/media
-      - ./staticfiles:/app/staticfiles
+      # ✅ Usa volúmenes nombrados en lugar de bind mounts
+      - media_data:/app/media
+      - static_data:/app/staticfiles
     env_file:
       - .env.production
     depends_on:
@@ -29,5 +29,8 @@ services:
     ports:
       - "5432:5432"
 
+# ✅ Define todos los volúmenes persistentes
 volumes:
   postgres_data:
+  media_data:      # ← Añade este
+  static_data:     # ← Añade este
