@@ -18,6 +18,30 @@ class Technology(models.Model):
     def __str__(self):
         return self.name
 ###############################################################################################
+class Skill(models.Model):   
+    # Campo base (Inglés)
+    name = models.CharField(
+        max_length=50, 
+        verbose_name="Category Name (English)"
+    )
+    
+    # Campo de traducción (Español)
+    name_es = models.CharField(
+        max_length=50, 
+        verbose_name="Nombre de Categoría (Español)"
+    )
+    
+    class Meta:
+        verbose_name = "Skill"
+        verbose_name_plural = "Skills"
+    def __str__(self):
+        return self.name
+
+    @property
+    def get_name(self):
+        lang = get_language()
+        return getattr(self, f'name_{lang}', self.name)
+###############################################################################################
 # apps/core/models.py
 from django.db import models
 from django.utils.text import slugify
@@ -160,6 +184,12 @@ class Project(models.Model):
         'Technology',
         related_name='projects',
         verbose_name="Technologies",
+        blank=True
+    )
+    skills = models.ManyToManyField(
+        'Skill',
+        related_name='projects',
+        verbose_name="Skills",
         blank=True
     )
     

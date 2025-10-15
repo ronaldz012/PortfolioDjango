@@ -78,38 +78,40 @@
 {% load static %}
 
 <section class="grid grid-cols-1 gap-8 p-6 mx-auto max-w-5xl">
+    {% load i18n %}
+    
     {% for project in projects %}
-    <article class="border border-gray-300 rounded-xl flex flex-col md:flex-row transition duration-300 hover:shadow-xl relative bg-white p-4">
+    <article class="border border-gray-200 rounded-xl flex flex-col md:flex-row transition duration-300 hover:shadow-lg relative bg-white p-6">
         
-        <!-- Thumbnail a la izquierda -->
         <div class="w-full md:w-56 h-40 md:h-40 bg-gray-100 flex-shrink-0 rounded-lg overflow-hidden mr-0 md:mr-6 mb-4 md:mb-0">
             {% if project.thumbnail %}
                 <img 
                     src="{{ project.thumbnail.url }}" 
                     alt="{{ project.get_title }}"
-                    class="w-full h-full object-contain"
+                    class="w-full h-full object-cover md:object-contain"
                 >
             {% else %}
-                <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                    <span class="text-gray-400 text-sm">Sin imagen</span>
+                <div class="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-5 3h2m-6 3h6m-12 0h.01M6 20h.01M6 16h.01"></path></svg>
                 </div>
             {% endif %}
         </div>
         
-        <!-- Contenido a la derecha -->
         <div class="flex-1 flex flex-col">
-            <header class="mb-4">
-                <h2 class="text-2xl font-bold mb-2">
-                    <a href="project/{{ project.slug }}" class="text-gray-900 hover:text-indigo-600 transition duration-150">
-                        {{ project.get_title }}
-                    </a>
-                </h2>
-            </header>
             
-            <p class="text-gray-600 text-lg flex-grow mb-4">
+            <p class="text-gray-600 flex-grow mb-4">
                 {{ project.get_short_description }}
             </p>
-            
+            {% if project.skills.all %}
+            <div class="flex flex-wrap gap-2 mb-4">
+                {% for skill in project.skills.all %}
+                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        {{ skill.get_name }}
+                    </span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if project.technologies.all %}
             <div class="flex flex-wrap gap-3 mb-6">
                 {% for tech in project.technologies.all %}
                 <span class="text-3xl" title="{{ tech.name }}">
@@ -117,28 +119,35 @@
                 </span>
                 {% endfor %}
             </div>
+            {% endif %}
             
-            <div class="flex flex-col sm:flex-row gap-3 mt-auto">
-                <a href="#" class="bg-gray-800 text-white px-5 py-2 rounded-md font-medium text-base sm:text-lg hover:bg-gray-700 transition shadow-md text-center">
-                    Ver Documentación →
+            <div class="flex flex-col sm:flex-row gap-3 mt-auto pt-3 border-t border-gray-100">
+                
+                {# Primer Botón: Ver Detalle / Documentación (Prioritario) #}
+                <a href="{% url 'core:project_details' project_slug=project.slug %}" 
+                   class="bg-purple-600 text-white px-5 py-2 rounded-lg font-medium text-base hover:bg-purple-700 transition shadow-md text-center">
+                    {% trans "View Project" %} →
                 </a>
+                
+                {# Segundo Botón: GitHub (Secundario) #}
                 {% if project.github_url %}
-                <a href="{{ project.github_url }}" target="_blank" class="text-gray-800 bg-gray-100 border border-gray-300 px-5 py-2 rounded-md text-base sm:text-lg hover:bg-gray-200 transition text-center">
+                <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer"
+                   class="text-gray-800 bg-gray-100 border border-gray-300 px-5 py-2 rounded-lg text-base hover:bg-gray-200 transition text-center">
                     GitHub
                 </a>
                 {% endif %}
             </div>
             
             {% if project.featured %}
-            <span class="absolute top-3 right-3 bg-yellow-400 text-gray-800 text-sm font-bold py-1 px-3 rounded-full shadow-lg">
-                ⭐ Destacado
+            <span class="absolute top-3 right-3 bg-purple-100 text-purple-700 text-xs font-bold py-1 px-3 rounded-full border border-purple-300">
+                ⭐ {% trans "Featured" %}
             </span>
             {% endif %}
         </div>
     </article>
     {% empty %}
     <p class="col-span-full text-center py-10 text-gray-500">
-        Lo siento, aún no hay proyectos publicados para mostrar.
+        {% trans "Sorry, no projects have been published yet." %}
     </p>
     {% endfor %}
 </section>
