@@ -1,12 +1,170 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load i18n %}
+{# {% load custom_filters %} <-- ¡ELIMINADA ESTA LÍNEA! #}
 
-{% block title %}{% trans "Init" %}{% endblock %}
+{% block title %}{{ project.get_title }} | Projects{% endblock %}
 
 {% block content %}
-    <p>Detalles del Proyecto: {{ project.get_title }}</p>
-{% endblock%}
 
-{%block extra_js%}
-{% endblock %}
+    <div class="py-0"> 
+        
+        <div class="border-b border-gray-200 pb-8 mb-8">
+            
+            <nav class="flex mb-4 text-sm" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3 text-gray-500">
+                    <li class="inline-flex items-center">
+                        <a href="{% url 'core:home' %}" class="hover:text-black transition-colors">
+                            {% trans "Home" %}
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <a href="{% url 'core:projects' %}" class="hover:text-black transition-colors">
+                                {% trans "Projects" %}
+                            </a>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-gray-400 mx-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-gray-900 font-medium">{{ project.get_title }}</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+                {{ project.get_title }}
+            </h1>
+            <p class="text-lg sm:text-xl text-gray-600 mb-6">
+                {{ project.get_short_description }}
+            </p>
+
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                {% if project.technologies.all %}
+                <div class="flex flex-wrap gap-2">
+                    {% for tech in project.technologies.all %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                        {{ tech.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="flex flex-wrap gap-3">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
+                        {% trans "View on GitHub" %}
+                    </a>
+                    {% endif %}
+                    
+                    {% if project.demo_url %}
+                    <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        {% trans "Live Demo" %}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="py-4">
+            
+            {% if project.thumbnail %}
+            <div class="mb-12">
+                <img src="{{ project.thumbnail.url }}" 
+                     alt="{{ project.get_title }}" 
+                     class="w-full rounded-lg shadow-xl border border-gray-100">
+            </div>
+            {% endif %}
+
+            {% if project.get_body_html_intro %}
+            <div class="prose max-w-none mb-12 text-gray-800">
+                {{ project.get_body_html_intro|safe }}
+            </div>
+            {% endif %}
+
+            {% if project.architecture_diagram %}
+            <figure class="mb-12">
+                <img src="{{ project.architecture_diagram.url }}" 
+                     alt="{% trans 'Architecture Diagram' %}" 
+                     class="w-full rounded-lg shadow-xl border border-gray-200">
+                <figcaption class="mt-3 text-center text-sm text-gray-500">
+                    {% trans "System Architecture" %}
+                </figcaption>
+            </figure>
+            {% endif %}
+
+            {% if project.get_body_html_middle %}
+            <div class="prose max-w-none mb-12 text-gray-800">
+                {{ project.get_body_html_middle|safe }}
+            </div>
+            {% endif %}
+
+            {% if project.video_url %}
+            <div class="mb-12">
+                <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-xl">
+                    {# Si es YouTube, simplemente insertamos la URL. Esto asume que el usuario ingresa la URL de embed. #}
+                    {% if 'youtube.com' in project.video_url or 'youtu.be' in project.video_url %}
+                        <iframe src="{{ project.video_url }}"
+                                class="w-full h-full"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    {% else %}
+                        <video controls class="w-full h-full">
+                            <source src="{{ project.video_url }}" type="video/mp4">
+                            {% trans "Your browser does not support the video tag." %}
+                        </video>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if project.result_image %}
+            <figure class="mb-12">
+                <img src="{{ project.result_image.url }}" 
+                     alt="{% trans 'Results' %}" 
+                     class="w-full rounded-lg shadow-xl border border-gray-200">
+                <figcaption class="mt-3 text-center text-sm text-gray-500">
+                    {% trans "Operational Results / Metrics" %}
+                </figcaption>
+            </figure>
+            {% endif %}
+
+            {% if project.get_body_html_conclusion %}
+            <div class="prose max-w-none mb-12 text-gray-800">
+                {{ project.get_body_html_conclusion|safe }}
+            </div>
+            {% endif %}
+
+            <div class="mt-16 pt-8 border-t border-gray-200">
+                <a href="{% url 'core:projects' %}" 
+                   class="inline-flex items-center text-purple-600 hover:text-purple-800 font-medium transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    {% trans "Back to Projects" %}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+// Puedes agregar tu lógica de Lightbox aquí si lo deseas
+</script>
+{% endblock extra_js %}

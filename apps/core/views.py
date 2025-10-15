@@ -41,9 +41,9 @@ def projects(request):
    return HttpResponse("This is projects page")
 
 def project_details(request, project_slug):
-    # Usamos get_object_or_404 para buscar el objeto
-    # Si no lo encuentra, Django lanza automáticamente un error 404.
-    project = get_object_or_404(Project, slug=project_slug)
-
-    # Renderizamos la plantilla, pasándole el objeto proyecto
+    # prefetch_related precarga las tecnologías en una sola query adicional
+    project = get_object_or_404(
+        Project.objects.prefetch_related('technologies'),
+        slug=project_slug
+    )
     return render(request, 'core/project_details.html', {'project': project})
