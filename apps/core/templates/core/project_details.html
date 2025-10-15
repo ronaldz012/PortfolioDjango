@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Init" %}{% endblock %}
+
+{% block content %}
+    <p>Detalles del Proyecto: {{ project.get_title }}</p>
+{% endblock%}
+
+{%block extra_js%}
+{% endblock %}

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Importamos el modelo Project para poder acceder a los datos
 from .models import Project 
-
+from django.shortcuts import render, get_object_or_404
 # Ya no necesitas 'from . import views' dentro de este archivo
 
 # --- Funciones de vista actualizadas ---
@@ -39,3 +39,11 @@ def projects(request):
    # Si decides usar esta función para la página de listado en lugar de project_list,
    # simplemente copia el contenido de project_list aquí.
    return HttpResponse("This is projects page")
+
+def project_details(request, project_slug):
+    # Usamos get_object_or_404 para buscar el objeto
+    # Si no lo encuentra, Django lanza automáticamente un error 404.
+    project = get_object_or_404(Project, slug=project_slug)
+
+    # Renderizamos la plantilla, pasándole el objeto proyecto
+    return render(request, 'core/project_details.html', {'project': project})
