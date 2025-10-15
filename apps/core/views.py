@@ -8,20 +8,43 @@ from django.shortcuts import render, get_object_or_404
 
 # --- Funciones de vista actualizadas ---
 
+from django.shortcuts import render
+from .models import Project
+
 def test(request):
-   """
-   Obtiene todos los proyectos y los pasa a la plantilla index.html.
-   """
-   # 1. Obtiene todos los objetos Project
-   all_projects = Project.objects.all() 
-   
-   # 2. Prepara el contexto (el diccionario de datos para la plantilla)
-   context = {
-       'projects': all_projects 
-   }
-   
-   # 3. Renderiza la plantilla, pasando los datos
-   return render(request, 'core/index.html', context)
+    """
+    Obtiene los campos básicos de todos los proyectos, incluyendo sus tecnologías
+    de forma eficiente, y los pasa a la plantilla index.html.
+    """
+    # 1. Optimiza la consulta:
+    #    - only(): Limita los campos traídos de la tabla Project (mejor rendimiento).
+    #    - prefetch_related(): Carga las tecnologías (ManyToManyField) en una consulta separada
+    #      y las adjunta a cada proyecto, evitando N+1 queries.
+    all_projects = Project.objects.all().only(
+        # Campos de contenido necesarios para la tarjeta
+        'slug',
+        'title',
+        'short_description',
+        'title_es',
+        'short_description_es',
+        'thumbnail',
+        
+        # Campos de metadata necesarios
+        'featured',
+        'order',
+        
+        # Campos necesarios para el i18n
+        # (Aunque get_title/get_short_description usa los campos _es, hay que incluirlos)
+        # Los campos _es ya están arriba.
+    ).prefetch_related('technologies')
+    
+    # 2. Prepara el contexto
+    context = {
+        'projects': all_projects
+    }
+    
+    # 3. Renderiza la plantilla
+    return render(request, 'core/index.html', context)
 
 # Si usas esta vista como tu página de inicio, puedes renombrarla a 'home' o 'index'
 
